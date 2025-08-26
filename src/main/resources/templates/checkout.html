@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Checkout - DineDrop</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/checkout.css">
+</head>
+<body>
+    <h2>🛍️ Checkout</h2>
+    <p>Welcome, <span th:text="${user.username}">User</span></p>
+
+    <!-- 🧾 Cart Summary -->
+    <div class="card">
+        <h3>🧾 Your Cart</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${cartItems}">
+                    <td th:text="${item.menuItem.name}">Item Name</td>
+                    <td th:text="${item.quantity}">1</td>
+                    <td>₹<span th:text="${item.menuItem.price}">0.00</span></td>
+
+                    <!-- Hidden inputs for form submission -->
+                    <input type="hidden" name="menuItemIds" th:value="${item.menuItem.id}" />
+                    <input type="hidden" name="quantities" th:value="${item.quantity}" />
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>Total:</strong> ₹<span th:text="${totalAmount}">0.00</span></p>
+    </div>
+
+    <!-- 🚚 Delivery Address Form -->
+    <div class="card">
+        <h3>🚚 Delivery Details</h3>
+        <form th:action="@{/checkout/place}" method="post">
+            <label for="deliveryAddress">Delivery Address:</label><br>
+            <textarea name="deliveryAddress" rows="3" cols="40" required></textarea><br><br>
+
+            <!-- Hidden inputs for cart items -->
+            <div th:each="item : ${cartItems}">
+                <input type="hidden" name="menuItemIds" th:value="${item.menuItem.id}" />
+                <input type="hidden" name="quantities" th:value="${item.quantity}" />
+            </div>
+
+            <button type="submit">✅ Place Order</button>
+        </form>
+    </div>
+
+    <nav>
+        <a th:href="@{/cart}">← Back to Cart</a> |
+        <a th:href="@{/restaurants}">🍽️ Browse More</a>
+    </nav>
+</body>
+</html>

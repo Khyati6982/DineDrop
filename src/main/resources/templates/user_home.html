@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Home - DineDrop</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/user_home.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome, <span th:text="${user.username}">User</span>!</h1>
+            <p class="tagline">Explore restaurants, place orders, and track your meals.</p>
+        </header>
+
+        <nav class="nav-links">
+            <a th:href="@{/restaurants}">🍽️ Browse Restaurants</a>
+            <a th:href="@{/}">🚪 Logout</a>
+        </nav>
+    </div>
+</body>
+</html>

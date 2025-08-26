@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Order Confirmation - DineDrop</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/order-confirmation.css">
+</head>
+<body>
+    <div class="container">
+        <h2>🎉 Order Confirmed!</h2>
+        <p>Thank you for your order, <span th:text="${order.user.username}">Customer</span>.</p>
+        <p><strong>Order ID:</strong> <span th:text="${order.id}">#12345</span></p>
+        <p><strong>Total Amount:</strong> ₹<span th:text="${order.totalAmount}">0.00</span></p>
+
+        <div class="card">
+            <h3>💳 Make a Payment</h3>
+            <form th:action="@{/payment/process}" method="post">
+                <input type="hidden" name="orderId" th:value="${order.id}" />
+                <!-- form fields -->
+                <button type="submit">Pay ₹<span th:text="${order.totalAmount}">0.00</span></button>
+            </form>
+        </div>
+
+        <nav>
+            <a th:href="@{/menu}">Back to Menu</a> |
+            <a th:href="@{/logout}">Logout</a>
+        </nav>
+    </div>
+</body>
+</html>

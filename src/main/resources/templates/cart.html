@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Your Cart</title>
+    <link rel="stylesheet" th:href="@{/css/cart.css}" />
+</head>
+<body>
+
+    <h2>Your Cart 🛒</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${cartItems}">
+                <td th:text="${item.menuItem.name}">Item Name</td>
+                <td>₹<span th:text="${item.menuItem.price}">0.00</span></td>
+                <td>
+                    <form th:action="@{'/cart/update/' + ${item.menuItem.id}}" method="post">
+                        <input type="number" name="quantity" th:value="${item.quantity}" min="1" required />
+                        <button type="submit">Update</button>
+                    </form>
+                </td>
+                <td>₹<span th:text="${item.totalPrice}">0.00</span></td>
+                <td>
+                    <form th:action="@{'/cart/remove/' + ${item.menuItem.id}}" method="post">
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 💰 Total Price -->
+    <p><strong>Total:</strong> ₹<span th:text="${totalPrice}">0.00</span></p>
+
+    <!-- 💳 Proceed to Checkout -->
+    <form th:action="@{/checkout}" method="get" style="margin-top: 20px;">
+        <button type="submit">Proceed to Checkout</button>
+    </form>
+
+    <!-- ➕ Add More Items -->
+    <p style="margin-top: 10px;">
+		<a th:href="@{/restaurants}" class="add-more-btn">➕ Add More Items</a>
+    </p>
+
+    <!-- 🧹 Clear Cart -->
+    <form th:action="@{/cart/clear}" method="post">
+        <button type="submit">Clear Cart</button>
+    </form>
+
+</body>
+</html>

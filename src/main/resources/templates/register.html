@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register - DineDrop</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+</head>
+<body>
+    <div class="register-container">
+        <h2>Create Your DineDrop Account</h2>
+        <form th:action="@{/register}" method="post" th:object="${user}">
+            <label>Username:</label>
+            <input type="text" th:field="*{username}" required />
+
+            <label>Email:</label>
+            <input type="email" th:field="*{email}" required />
+
+            <label>Password:</label>
+            <input type="password" th:field="*{password}" required />
+
+            <label>Phone:</label>
+            <input type="text" th:field="*{phone}" />
+
+            <label>Address:</label>
+            <input type="text" th:field="*{address}" />
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p class="error-message" th:if="${error}" th:text="${error}"></p>
+        <p class="success-message" th:if="${message}" th:text="${message}"></p>
+
+        <p class="login-link">
+            Already have an account?
+            <a th:href="@{/login}">Login here</a>
+        </p>
+    </div>
+</body>
+</html>

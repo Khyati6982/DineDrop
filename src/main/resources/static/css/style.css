@@ -1,0 +1,50 @@
+/* 🌐 Base Layout */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 40px;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* 🧮 Shared Form Elements */
+label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="email"],
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+/* 🧭 Navigation Links */
+nav {
+    margin-top: 30px;
+    text-align: center;
+}
+
+nav a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+nav a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+

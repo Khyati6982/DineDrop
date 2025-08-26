@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard - DineDrop</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="admin-container">
+        <h2>Admin Dashboard</h2>
+        <p>Welcome, <span th:text="${user.username}">Admin</span>. Manage the platform efficiently.</p>
+
+        <nav>
+            <a th:href="@{/admin/restaurants}">Manage Restaurants</a>
+            <a th:href="@{/admin/menu}">Manage Menu</a>
+            <a th:href="@{/}">Logout</a>
+        </nav>
+    </div>
+</body>
+</html>

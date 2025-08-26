@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Restaurants - DineDrop</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/restaurants.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Available Restaurants</h2>
+
+        <div th:if="${restaurants.size() == 0}" class="empty-state">
+            <p>No restaurants available at the moment.</p>
+        </div>
+
+        <div class="restaurant-list">
+            <div th:each="restaurant : ${restaurants}" class="restaurant-card">
+                <h3 th:text="${restaurant.name}">Restaurant Name</h3>
+                <p><strong>Cuisine:</strong> <span th:text="${restaurant.cuisine}">Cuisine</span></p>
+                <p><strong>Location:</strong> <span th:text="${restaurant.location}">Location</span></p>
+                <a th:href="@{/restaurant/{id}/menu(id=${restaurant.id})}" class="btn">View Menu</a>
+            </div>
+        </div>
+
+        
+        <nav>
+        	<!-- ✅ Show if user is logged in -->
+			<span th:if="${user != null}">
+   				<a th:href="@{/user/home}">Back to Home</a> |
+    			<a th:href="@{/logout}">Logout</a>	
+			</span>
+
+			<!-- 🔒 Show if user is NOT logged in -->
+			<span th:unless="${user != null}">
+    			<a th:href="@{/login}">Login</a> |
+    			<a th:href="@{/register}">Register</a>
+			</span>
+		</nav>
+    </div>
+</body>
+</html>
+
+

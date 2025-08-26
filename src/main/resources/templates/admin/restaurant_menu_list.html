@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Menu - [[${restaurant.name}]]</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="list-container">
+        <h2>Menu Items for <span th:text="${restaurant.name}">Restaurant</span></h2>
+        <a th:href="@{'/admin/restaurants/' + ${restaurant.id} + '/menu/add'}" class="add-button">+ Add New Item</a>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price (₹)</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${menuItems}">
+                    <td th:text="${item.name}">Name</td>
+                    <td th:text="${item.description}">Description</td>
+                    <td th:text="${item.price}">Price</td>
+                    <td th:text="${item.inStock ? 'Available' : 'Out of Stock'}">Status</td>
+                    <td>
+                        <form th:action="@{'/admin/menu/' + ${item.id} + '/toggle-stock'}"
+                              method="post" style="display:inline;">
+                            <button type="submit" class="stock-button"
+                                    th:text="${item.inStock ? 'Mark Out of Stock' : 'Mark In Stock'}"></button>
+                        </form>
+                        <a th:href="@{'/admin/menu/edit/' + ${item.id}}" class="edit-button">Edit</a>
+                        <a th:href="@{'/admin/menu/delete/' + ${item.id}}" class="delete-button"
+                           onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/admin/restaurants}" class="back-link">← Back to Restaurants</a>
+    </div>
+</body>
+</html>
+

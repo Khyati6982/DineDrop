@@ -1,0 +1,124 @@
+/* Layout */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #fffaf7;
+    color: #333;
+}
+
+.menu-container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+/* Header */
+.menu-container h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #d35400;
+}
+
+.menu-container p {
+    font-size: 1rem;
+    margin: 4px 0;
+}
+
+/* Grid */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+/* Cards */
+.menu-card {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.menu-card h3 {
+    margin-top: 0;
+    font-size: 1.3rem;
+    color: #2c3e50;
+}
+
+.menu-card p {
+    font-size: 0.95rem;
+    margin: 6px 0;
+}
+
+/* Price & Status */
+.menu-card span {
+    font-weight: bold;
+}
+
+.out-of-stock {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Buttons */
+button {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #219150;
+}
+
+/* Prompts */
+.checkout-prompt, .auth-prompt {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #fef3e7;
+    border-left: 5px solid #f39c12;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.checkout-prompt a, .auth-prompt a {
+    color: #d35400;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.checkout-prompt a:hover, .auth-prompt a:hover {
+    text-decoration: underline;
+}
+
+/* Navigation */
+.menu-nav {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.menu-nav a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: #2980b9;
+}
+
+.menu-nav a:hover {
+    text-decoration: underline;
+}
+

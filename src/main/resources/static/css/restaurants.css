@@ -1,0 +1,98 @@
+/* 🌐 Page Layout */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* 🏢 Restaurant Cards Grid */
+.restaurant-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.restaurant-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-4px);
+}
+
+.restaurant-card h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.restaurant-card p {
+    margin: 6px 0;
+    color: #555;
+}
+
+/* 🎯 Button */
+.btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 16px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* 🧭 Navigation */
+nav {
+    margin-top: 30px;
+    text-align: center;
+}
+
+nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* 🚫 Empty State */
+.empty-state {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    margin-top: 40px;
+}
+
+/* 📱 Responsive Layout */
+@media (max-width: 992px) {
+    .restaurant-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .restaurant-list {
+        grid-template-columns: 1fr;
+    }
+}

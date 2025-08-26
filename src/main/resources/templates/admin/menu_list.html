@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Menu List</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="list-container">
+        <h2>All Menu Items</h2>
+        <a th:href="@{/admin/menu/add}" class="add-button">Add New Item</a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price (₹)</th>
+                    <th>Restaurant</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${menuItems}">
+                    <td th:text="${item.name}">Name</td>
+                    <td th:text="${item.description}">Description</td>
+                    <td th:text="${item.price}">Price</td>
+                    <td th:text="${item.restaurant.name}">Restaurant</td>
+                    <td th:text="${item.inStock ? 'In Stock' : 'Out of Stock'}">Stock</td>
+                    <td>
+                        <a th:href="@{'/admin/menu/edit/' + ${item.id}}" class="edit-button">Edit</a>
+                        <a th:href="@{'/admin/menu/delete/' + ${item.id}}" class="delete-button"
+                           onclick="return confirm('Are you sure you want to delete this dish?');">Delete</a>
+                        <form th:action="@{'/admin/menu/' + ${item.id} + '/toggle-stock'}"
+                              method="post" style="display:inline;">
+                            <button type="submit">Toggle Stock</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/admin/restaurants}" class="back-link">← Back to Restaurants</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Menu - DineDrop</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/menu.css">
+</head>
+<body>
+    <div class="menu-container">
+
+        <!-- 🔙 Navigation -->
+        <nav class="menu-nav">
+            <a th:href="@{/restaurants}">← Back to Restaurants</a> |
+            <span th:if="${session.user != null}">
+                <a th:href="@{/cart}">🛒 View Cart</a> |
+                <a th:href="@{/logout}">Logout</a>
+            </span>
+            <span th:unless="${session.user != null}">
+                <a th:href="@{/login}">Login</a>
+            </span>
+        </nav>
+
+        <!-- 🍽️ Restaurant Info -->
+        <h2 th:text="${restaurant.name} + ' Menu'">Restaurant Menu</h2>
+        <p><strong>Cuisine:</strong> <span th:text="${restaurant.cuisine}">Cuisine</span></p>
+        <p><strong>Location:</strong> <span th:text="${restaurant.location}">Location</span></p>
+
+        <!-- 📭 Empty Menu -->
+        <div th:if="${menuItems.size() == 0}" class="empty-state">
+            <p>No menu items available.</p>
+        </div>
+
+        <!-- 🧾 Menu Grid -->
+        <div class="menu-grid">
+            <div th:each="item : ${menuItems}" class="menu-card">
+                <h3 th:text="${item.name}">Item Name</h3>
+                <p th:text="${item.description}">Item Description</p>
+                <p><strong>Price:</strong> ₹<span th:text="${item.price}">0.00</span></p>
+                <p>
+                    <strong>Status:</strong>
+                    <span th:text="${item.inStock} ? 'In Stock' : 'Out of Stock'">Stock Status</span>
+                </p>
+
+                <!-- ✅ Show Add to Cart only if in stock -->
+                <div th:if="${item.inStock}">
+                    <form th:action="@{'/cart/add/' + ${item.id}}" method="post">
+                        <input type="hidden" name="quantity" value="1" />
+                        <button type="submit">Add to Cart</button>
+                    </form>
+                </div>
+
+                <!-- 🚫 Show unavailable message if out of stock -->
+                <p th:unless="${item.inStock}" class="out-of-stock">This item is currently unavailable.</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+

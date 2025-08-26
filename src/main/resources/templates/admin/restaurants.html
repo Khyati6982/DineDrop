@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Restaurants - DineDrop Admin</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+    <div class="list-container">
+        <h2>All Restaurants</h2>
+
+        <a th:href="@{/admin/restaurants/add}" class="add-button">+ Add New Restaurant</a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Cuisine</th>
+                    <th>Location</th>
+                    <th>Menu Items</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="r : ${restaurants}">
+                    <td th:text="${r.name}">Name</td>
+                    <td th:text="${r.cuisine}">Cuisine</td>
+                    <td th:text="${r.location}">Location</td>
+                    <td>
+                        <ul th:if="${r.menuItems}">
+                            <li th:each="item : ${r.menuItems}" th:text="${item.name}">Item</li>
+                        </ul>
+                        <span th:if="${#lists.isEmpty(r.menuItems)}" class="empty-message">No items</span>
+                    </td>
+                    <td>
+                        <a th:href="@{'/admin/restaurants/edit/' + ${r.id}}" class="edit-button">Edit</a>
+                        <a th:href="@{'/admin/restaurants/delete/' + ${r.id}}" class="delete-button"
+                           onclick="return confirm('Are you sure you want to delete this restaurant?');">Delete</a>
+                        <a th:href="@{'/admin/restaurants/' + ${r.id} + '/menu/add'}" class="menu-button">+ Add Menu Item</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/admin/dashboard}" class="back-link">← Back to Admin Dashboard</a>
+    </div>
+</body>
+</html>
+
