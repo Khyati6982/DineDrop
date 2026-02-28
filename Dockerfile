@@ -8,6 +8,9 @@ COPY pom.xml .
 COPY mvnw .
 COPY .mvn .mvn
 
+# Give execute permission to mvnw 
+RUN chmod +x mvnw
+
 # Download dependencies
 RUN ./mvnw dependency:go-offline
 
@@ -29,4 +32,4 @@ COPY --from=build /app/target/DineDrop-0.0.1-SNAPSHOT.jar dinedrop.jar
 EXPOSE 9091
 
 # Run the app
-CMD ["java", "-jar", "dinedrop.jar"]
+ENTRYPOINT ["java", "-jar", "dinedrop.jar"]
