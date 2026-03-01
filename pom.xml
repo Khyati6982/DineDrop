@@ -38,12 +38,19 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- ✅ MariaDB Connector -->
+        <!-- MariaDB Connector -->
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>3.3.2</version> <!-- latest stable -->
         </dependency>
+        
+        <!-- Postgresql Connector -->
+        <dependency>
+    		<groupId>org.postgresql</groupId>
+    		<artifactId>postgresql</artifactId>
+    		<version>42.7.3</version>
+		</dependency>
 
         <!-- DevTools -->
         <dependency>
