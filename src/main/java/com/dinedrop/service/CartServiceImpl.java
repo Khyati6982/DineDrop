@@ -4,7 +4,6 @@ import com.dinedrop.model.CartItem;
 import com.dinedrop.model.MenuItem;
 import com.dinedrop.model.User;
 import com.dinedrop.repository.CartItemRepository;
-import com.dinedrop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,5 +64,10 @@ public class CartServiceImpl implements CartService {
                 cartItemRepository.save(item);
             }
         }
+    }
+
+    @Override
+    public CartItem getCartItemByMenuItemId(User user, Long menuItemId) {
+        return cartItemRepository.findByUserAndMenuItemId(user, menuItemId);
     }
 }

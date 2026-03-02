@@ -1,79 +1,27 @@
 package com.dinedrop.service;
 
-import com.dinedrop.model.*;
-import com.dinedrop.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.dinedrop.model.Order;
+import com.dinedrop.model.User;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class OrderService {
+public interface OrderService {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    // Place a new order
+    Order placeOrder(Long userId, List<Long> menuItemIds, List<Integer> quantities, String deliveryAddress);
 
-    @Autowired
-    private OrderItemRepository orderItemRepository;
+    // Overloaded method for convenience
+    Order placeOrder(User user, List<Long> menuItemIds, List<Integer> quantities, String deliveryAddress);
 
-    @Autowired
-    private MenuItemRepository menuItemRepository;
+    // Get all orders for a user
+    List<Order> getOrdersByUser(Long userId);
 
-    @Autowired
-    private UserRepository userRepository;
+    // Get order details
+    Order getOrderDetails(Long orderId);
 
-    public Order placeOrder(Long userId, List<Long> menuItemIds, List<Integer> quantities, String deliveryAddress) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    // Get all orders
+    List<Order> getAllOrders();
 
-        Order order = new Order();
-        order.setUser(user);
-        order.setDeliveryAddress(deliveryAddress);
-        order.setOrderTime(LocalDateTime.now());
-        order.setPaymentStatus("PAID"); // Mocked for now
-        order.setItems(new ArrayList<>()); // ✅ Initialize items list
-
-        double totalAmount = 0.0;
-
-        for (int i = 0; i < menuItemIds.size(); i++) {
-            MenuItem item = menuItemRepository.findById(menuItemIds.get(i))
-                    .orElseThrow(() -> new RuntimeException("Menu item not found"));
-
-            int quantity = quantities.get(i);
-            double price = item.getPrice();
-
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setMenuItem(item);
-            orderItem.setQuantity(quantity);
-            orderItem.setPrice(price);
-
-            totalAmount += price * quantity;
-            order.getItems().add(orderItem); // ✅ Safe now
-        }
-
-        order.setTotalAmount(totalAmount);
-        return orderRepository.save(order);
-    }
-
-    public List<Order> getOrdersByUser(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        return orderRepository.findByUser(user);
-    }
-
-    public Order getOrderDetails(Long orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
-    }
-
-    public Order placeOrder(User user, List<Long> menuItemIds, List<Integer> quantities, String deliveryAddress) {
-        return placeOrder(user.getId(), menuItemIds, quantities, deliveryAddress);
-    }
-
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
-    }
+    // Method for Stripe
+    void updatePaymentStatus(Long orderId, String status, String stripeSessionId);
 }

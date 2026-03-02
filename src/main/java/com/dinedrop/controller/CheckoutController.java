@@ -4,14 +4,18 @@ import com.dinedrop.model.CartItem;
 import com.dinedrop.model.Order;
 import com.dinedrop.model.User;
 import com.dinedrop.service.CartService;
-import com.dinedrop.service.OrderService;
+import com.dinedrop.service.OrderServiceImpl;
 import com.dinedrop.service.UserService;
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,12 +26,12 @@ public class CheckoutController {
     private UserService userService;
 
     @Autowired
-    private OrderService orderService;
+    private OrderServiceImpl orderService;
 
     @Autowired
     private CartService cartService;
 
-    // ✅ Show checkout page
+    // Show checkout page
     @GetMapping
     public String showCheckoutPage(HttpSession session, Model model) {
         User user = userService.getLoggedInUser(session);
@@ -45,28 +49,62 @@ public class CheckoutController {
         return "checkout";
     }
 
-    // ✅ Place order
+    // Place order and redirect to Stripe Checkout
     @PostMapping("/place")
     public String placeOrder(
             @RequestParam List<Long> menuItemIds,
             @RequestParam List<Integer> quantities,
             @RequestParam String deliveryAddress,
             HttpSession session,
-            Model model) {
+            Model model) throws StripeException {
 
         User user = userService.getLoggedInUser(session);
         if (user == null || !"USER".equalsIgnoreCase(user.getRole())) {
             return "redirect:/login";
         }
 
+        // Place order in DB (status = PENDING)
         Order order = orderService.placeOrder(user, menuItemIds, quantities, deliveryAddress);
 
-        model.addAttribute("order", order);
-        model.addAttribute("user", user);
+        // Build Stripe Checkout Session
+        List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
+        for (int i = 0; i < menuItemIds.size(); i++) {
+            Long menuItemId = menuItemIds.get(i);
+            int quantity = quantities.get(i);
 
-        return "order-confirmation";
+            CartItem cartItem = cartService.getCartItemByMenuItemId(user, menuItemId);
+            String itemName = cartItem.getMenuItem().getName();
+            double itemPrice = cartItem.getMenuItem().getPrice();
+
+            lineItems.add(
+                SessionCreateParams.LineItem.builder()
+                    .setQuantity((long) quantity)
+                    .setPriceData(
+                        SessionCreateParams.LineItem.PriceData.builder()
+                            .setCurrency("inr")
+                            .setUnitAmount((long) (itemPrice * 100)) 
+                            .setProductData(
+                                SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                    .setName(itemName)
+                                    .build()
+                            )
+                            .build()
+                    )
+                    .build()
+            );
+        }
+
+        SessionCreateParams params = SessionCreateParams.builder()
+            .setMode(SessionCreateParams.Mode.PAYMENT)
+            .setSuccessUrl("https://your-frontend.com/success?session_id={CHECKOUT_SESSION_ID}")
+            .setCancelUrl("https://your-frontend.com/cancel")
+            .addAllLineItem(lineItems)
+            .setClientReferenceId(String.valueOf(order.getId()))
+            .build();
+
+        Session sessionStripe = Session.create(params);
+
+        // Redirect user to Stripe Checkout
+        return "redirect:" + sessionStripe.getUrl();
     }
 }
-
-
-

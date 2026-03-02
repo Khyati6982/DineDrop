@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payment Success - DineDrop</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/checkout-flow.css">
+</head>
+<body>
+    <div class="container">
+        <h2>✅ Payment Successful!</h2>
+        <p>Thank you, <span th:text="${user.username}">Customer</span>. Your payment has been received.</p>
+        <p><strong>Order ID:</strong> <span th:text="${order.id}">#12345</span></p>
+        <p><strong>Status:</strong> <span th:text="${order.paymentStatus}">PAID</span></p>
+
+        <nav>
+            <a th:href="@{/orders}">📦 View My Orders</a> |
+            <a th:href="@{/restaurants}">🍽️ Browse More</a>
+        </nav>
+    </div>
+</body>
+</html>

@@ -8,21 +8,24 @@ import java.util.List;
 
 public interface CartService {
 
-    // ➕ Add item to cart
+    // Add item to cart
     void addToCart(User user, MenuItem menuItem, int quantity);
 
-    // ➖ Remove item from cart
+    // Remove item from cart
     void removeFromCart(User user, Long menuItemId);
 
-    // 📦 Get all cart items for user
+    // Get all cart items for user
     List<CartItem> getCartItems(User user);
 
-    // 💰 Calculate total price for user's cart
+    // Calculate total price for user's cart
     double getTotalPrice(User user);
 
-    // 🧹 Clear entire cart
+    // Clear entire cart
     void clearCart(User user);
 
-    // 🔄 Update quantity of a specific item
+    // Update quantity of a specific item
     void updateQuantity(User user, Long menuItemId, int quantity);
+    
+    // Find a cart item by menuItemId 
+    CartItem getCartItemByMenuItemId(User user, Long menuItemId);
 }

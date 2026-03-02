@@ -3,13 +3,13 @@
 <head>
     <title>Checkout - DineDrop</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/checkout.css">
+    <link rel="stylesheet" href="/css/checkout-flow.css">
 </head>
 <body>
     <h2>🛍️ Checkout</h2>
     <p>Welcome, <span th:text="${user.username}">User</span></p>
 
-    <!-- 🧾 Cart Summary -->
+    <!-- Cart Summary -->
     <div class="card">
         <h3>🧾 Your Cart</h3>
         <table>
@@ -25,17 +25,13 @@
                     <td th:text="${item.menuItem.name}">Item Name</td>
                     <td th:text="${item.quantity}">1</td>
                     <td>₹<span th:text="${item.menuItem.price}">0.00</span></td>
-
-                    <!-- Hidden inputs for form submission -->
-                    <input type="hidden" name="menuItemIds" th:value="${item.menuItem.id}" />
-                    <input type="hidden" name="quantities" th:value="${item.quantity}" />
                 </tr>
             </tbody>
         </table>
         <p><strong>Total:</strong> ₹<span th:text="${totalAmount}">0.00</span></p>
     </div>
 
-    <!-- 🚚 Delivery Address Form -->
+    <!-- Delivery Address Form -->
     <div class="card">
         <h3>🚚 Delivery Details</h3>
         <form th:action="@{/checkout/place}" method="post">
@@ -48,7 +44,7 @@
                 <input type="hidden" name="quantities" th:value="${item.quantity}" />
             </div>
 
-            <button type="submit">✅ Place Order</button>
+            <button type="submit">💳 Proceed to Payment</button>
         </form>
     </div>
 

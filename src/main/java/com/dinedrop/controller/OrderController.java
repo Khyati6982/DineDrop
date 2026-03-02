@@ -1,7 +1,7 @@
 package com.dinedrop.controller;
 
 import com.dinedrop.model.Order;
-import com.dinedrop.service.OrderService;
+import com.dinedrop.service.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    private OrderService orderService;
+    private OrderServiceImpl orderService;
 
     @PostMapping("/place")
     public Order placeOrder(

@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>3.3.2</version> <!-- latest stable -->
+            <version>3.3.2</version>
         </dependency>
         
         <!-- Postgresql Connector -->
@@ -50,6 +50,13 @@
     		<groupId>org.postgresql</groupId>
     		<artifactId>postgresql</artifactId>
     		<version>42.7.3</version>
+		</dependency>
+
+		<!-- Stripe -->
+		<dependency>
+  			<groupId>com.stripe</groupId>
+  			<artifactId>stripe-java</artifactId>
+  			<version>24.6.0</version>
 		</dependency>
 
         <!-- DevTools -->
