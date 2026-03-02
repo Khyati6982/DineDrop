@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/payment")
 public class WebhookController {
+
+    private static final Logger logger = LoggerFactory.getLogger(WebhookController.class);
 
     @Autowired
     private OrderServiceImpl orderService;
@@ -37,11 +41,15 @@ public class WebhookController {
         String payload = new BufferedReader(new InputStreamReader(request.getInputStream()))
                 .lines().collect(Collectors.joining("\n"));
 
+        logger.info("Webhook payload received: {}", payload);
+
         Event event;
         try {
             // Verify Stripe signature
             event = Webhook.constructEvent(payload, sigHeader, endpointSecret);
+            logger.info("Webhook verified: {}", event.getType());
         } catch (Exception e) {
+            logger.error("Webhook signature verification failed: {}", e.getMessage());
             return ResponseEntity.badRequest().body("Webhook signature verification failed.");
         }
 
@@ -49,6 +57,8 @@ public class WebhookController {
         if ("checkout.session.completed".equals(event.getType())) {
             Session session = (Session) event.getDataObjectDeserializer().getObject().orElse(null);
             if (session != null) {
+                logger.info("Checkout session completed for orderId={}", session.getClientReferenceId());
+
                 Long orderId = Long.valueOf(session.getClientReferenceId());
 
                 // Update order status in DB
