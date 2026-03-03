@@ -56,17 +56,23 @@ public class WebhookController {
         // Handle successful checkout session
         if ("checkout.session.completed".equals(event.getType())) {
             Session session = (Session) event.getDataObjectDeserializer().getObject().orElse(null);
-            if (session != null) {
+            if (session != null && session.getClientReferenceId() != null) {
                 logger.info("Checkout session completed for orderId={}", session.getClientReferenceId());
+                try {
+                    Long orderId = Long.valueOf(session.getClientReferenceId());
 
-                Long orderId = Long.valueOf(session.getClientReferenceId());
+                    // Update order status in DB
+                    orderService.updatePaymentStatus(orderId, "PAID", session.getId());
 
-                // Update order status in DB
-                orderService.updatePaymentStatus(orderId, "PAID", session.getId());
+                    // Clear cart only after payment success
+                    Order order = orderService.getOrderDetails(orderId);
+                    cartService.clearCart(order.getUser());
 
-                // Clear cart only after payment success
-                Order order = orderService.getOrderDetails(orderId);
-                cartService.clearCart(order.getUser());
+                } catch (NumberFormatException e) {
+                    logger.error("Invalid orderId in clientReferenceId: {}", session.getClientReferenceId());
+                }
+            } else {
+                logger.warn("Checkout session missing clientReferenceId or session object");
             }
         }
 
