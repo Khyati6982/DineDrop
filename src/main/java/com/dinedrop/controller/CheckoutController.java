@@ -100,6 +100,8 @@ public class CheckoutController {
             .setCancelUrl("https://your-frontend.com/cancel")
             .addAllLineItem(lineItems)
             .setClientReferenceId(String.valueOf(order.getId()))
+            .setBillingAddressCollection(SessionCreateParams.BillingAddressCollection.REQUIRED) 
+            .setCustomerEmail(user.getEmail())
             .build();
 
         Session sessionStripe = Session.create(params);
