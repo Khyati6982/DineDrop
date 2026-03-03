@@ -11,6 +11,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,9 @@ public class CheckoutController {
 
     @Autowired
     private CartService cartService;
+
+    @Value("${app.baseUrl}")
+    private String baseUrl;
 
     // Show checkout page
     @GetMapping
@@ -82,7 +86,7 @@ public class CheckoutController {
                     .setPriceData(
                         SessionCreateParams.LineItem.PriceData.builder()
                             .setCurrency("inr")
-                            .setUnitAmount((long) (itemPrice * 100)) 
+                            .setUnitAmount((long) (itemPrice * 100))
                             .setProductData(
                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                     .setName(itemName)
@@ -96,11 +100,11 @@ public class CheckoutController {
 
         SessionCreateParams params = SessionCreateParams.builder()
             .setMode(SessionCreateParams.Mode.PAYMENT)
-            .setSuccessUrl("https://your-frontend.com/success?session_id={CHECKOUT_SESSION_ID}")
-            .setCancelUrl("https://your-frontend.com/cancel")
+            .setSuccessUrl(baseUrl + "/success?session_id={CHECKOUT_SESSION_ID}")
+            .setCancelUrl(baseUrl + "/cancel")
             .addAllLineItem(lineItems)
             .setClientReferenceId(String.valueOf(order.getId()))
-            .setBillingAddressCollection(SessionCreateParams.BillingAddressCollection.REQUIRED) 
+            .setBillingAddressCollection(SessionCreateParams.BillingAddressCollection.REQUIRED)
             .setCustomerEmail(user.getEmail())
             .build();
 
