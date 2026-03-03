@@ -22,6 +22,9 @@ public interface OrderService {
     // Get all orders
     List<Order> getAllOrders();
 
-    // Method for Stripe
+    // Method for Stripe: update payment status and save session ID
     void updatePaymentStatus(Long orderId, String status, String stripeSessionId);
+
+    // Lookup order by Stripe session ID (needed for success page)
+    Order getOrderBySessionId(String stripeSessionId);
 }

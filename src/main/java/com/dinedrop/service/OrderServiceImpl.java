@@ -2,7 +2,6 @@ package com.dinedrop.service;
 
 import com.dinedrop.model.*;
 import com.dinedrop.repository.*;
-import com.dinedrop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -91,5 +90,12 @@ public class OrderServiceImpl implements OrderService {
         order.setPaymentStatus(status);
         order.setStripeSessionId(stripeSessionId);
         orderRepository.save(order);
+    }
+
+    // Lookup order by Stripe session ID
+    @Override
+    public Order getOrderBySessionId(String stripeSessionId) {
+        return orderRepository.findByStripeSessionId(stripeSessionId)
+                .orElseThrow(() -> new RuntimeException("Order not found for session: " + stripeSessionId));
     }
 }
