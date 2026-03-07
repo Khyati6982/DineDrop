@@ -7,12 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Show login page
     @GetMapping("/login")
@@ -26,12 +30,11 @@ public class UserController {
     public String login(@ModelAttribute("user") User formUser, HttpSession session, Model model) {
         if (formUser.getEmail() == null || formUser.getPassword() == null) {
             model.addAttribute("error", "Email and password are required.");
-            return "login";
+            return "redirect:/login";
         }
 
-        User user = userService.login(formUser.getEmail(), formUser.getPassword());
-        if (user != null) {
-            System.out.println("Logged in user role: " + user.getRole());
+        User user = userService.findByEmail(formUser.getEmail());
+        if (user != null && passwordEncoder.matches(formUser.getPassword(), user.getPassword())) {
             session.setAttribute("loggedInUser", user);
 
             if (user.getRole() != null && user.getRole().contains("ADMIN")) {
@@ -39,10 +42,10 @@ public class UserController {
             } else {
                 return "redirect:/user/home";
             }
-        } else {
-            model.addAttribute("error", "Invalid email or password");
-            return "login";
         }
+
+        model.addAttribute("error", "Invalid email or password");
+        return "redirect:/login";
     }
 
     // Show registration page
@@ -60,23 +63,88 @@ public class UserController {
             return "register";
         }
 
-        User existing = userService.findByEmail(user.getEmail()); // ✅ safer than login()
+        User existing = userService.findByEmail(user.getEmail());
         if (existing != null) {
             model.addAttribute("error", "User already exists");
             return "register";
         }
 
         user.setRole("USER"); // Default role
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
+
         model.addAttribute("message", "Registration successful. Please login.");
-        return "login";
+        return "redirect:/login";
+    }
+
+    // Forgot password form
+    @GetMapping("/forgot-password")
+    public String forgotPasswordForm() {
+        return "forgot_password";
+    }
+
+    // Process forgot password (session-based)
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(@RequestParam String email, Model model, HttpSession session) {
+        User user = userService.findByEmail(email);
+        if (user != null) {
+            session.setAttribute("resetUserId", user.getId());
+            return "redirect:/reset-password";
+        } else {
+            model.addAttribute("error", "User not found");
+            return "forgot_password";
+        }
+    }
+
+    // Show reset password form safely
+    @GetMapping("/reset-password")
+    public String showResetPasswordForm(HttpSession session, Model model) {
+        Long userId = (Long) session.getAttribute("resetUserId");
+        if (userId != null) {
+            model.addAttribute("userId", userId);
+            return "reset_password";
+        } else {
+            model.addAttribute("error", "Invalid reset attempt. Please try again.");
+            return "forgot_password";
+        }
+    }
+
+    // Reset password
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam String newPassword,
+                                @RequestParam String confirmPassword,
+                                HttpSession session,
+                                Model model) {
+        Long userId = (Long) session.getAttribute("resetUserId");
+        if (userId == null) {
+            model.addAttribute("error", "Session expired. Please try again.");
+            return "forgot_password";
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            model.addAttribute("userId", userId);
+            return "reset_password";
+        }
+
+        User user = userService.findById(userId);
+        if (user != null) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userService.saveUser(user);
+            session.removeAttribute("resetUserId");
+            model.addAttribute("message", "Password reset successful. Please login.");
+            return "redirect:/login";
+        } else {
+            model.addAttribute("error", "User not found");
+            return "forgot_password";
+        }
     }
 
     // Logout
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         userService.logout(session);
-        return "redirect:/login";
+        return "redirect:/login"; 
     }
 
     // User home
@@ -97,8 +165,7 @@ public class UserController {
         if (user == null || user.getRole() == null || !user.getRole().contains("ADMIN")) {
             return "redirect:/login";
         }
-        System.out.println("Admin username: " + user.getUsername());
         model.addAttribute("user", user);
-        return "admin_dashboard";
+        return "admin/admin_dashboard";
     }
 }

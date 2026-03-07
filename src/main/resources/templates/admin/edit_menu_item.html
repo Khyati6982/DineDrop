@@ -1,55 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Edit Menu Item</title>
-    <link rel="stylesheet" th:href="@{/css/admin-form.css}">
-</head>
-<body>
-    <div class="admin-form-container">
-        <h2>Edit Menu Item</h2>
-        <form th:action="@{'/admin/restaurants/' + ${restaurantId} + '/menu/edit/' + ${menuItem.id}}"
-              th:object="${menuItem}" method="post">
-            
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" th:field="*{name}" id="name" required />
-            </div>
+	<head>
+    	<title>Edit Menu Item</title>
+    	<meta charset="UTF-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<link rel="stylesheet" th:href="@{/css/common.css}">
+    	<link rel="stylesheet" th:href="@{/css/admin-form.css}">
+	</head>
+	<body>
+    	<div th:replace="~{fragments/header :: navbar}"></div>
 
-            <div>
-                <label for="description">Description:</label>
-                <textarea th:field="*{description}" id="description" required></textarea>
-            </div>
+    	<div class="container admin-form-container">
+        	<h2>Edit Menu Item</h2>
 
-            <div>
-                <label for="price">Price:</label>
-                <input type="number" step="0.01" th:field="*{price}" id="price" required />
-            </div>
+        	<div class="back-link">
+            	<a th:href="@{'/admin/restaurants/' + ${restaurantId} + '/menus'}">← Back to Menu</a>
+        	</div>
 
-            <div>
-                <label for="restaurant">Restaurant:</label>
-                <select th:field="*{restaurant.id}" id="restaurant" required>
-                    <option th:each="r : ${restaurants}" 
-                            th:value="${r.id}" 
-                            th:text="${r.name}" 
-                            th:selected="${r.id == menuItem.restaurant.id}">
-                    </option>
-                </select>
-            </div>
+        	<form th:action="@{'/admin/restaurants/' + ${restaurantId} + '/menu/edit/' + ${menuItem.id}}"
+             th:object="${menuItem}" method="post">
 
-            <div>
-                <label for="inStock">In Stock:</label>
-                <select th:field="*{inStock}" id="inStock" required>
-                    <option th:value="true" th:text="'Available'" th:selected="${menuItem.inStock} == true"></option>
-                    <option th:value="false" th:text="'Out of Stock'" th:selected="${menuItem.inStock} == false"></option>
-                </select>
-            </div>
+            	<div class="form-group">
+                	<label for="name">Name</label>
+                	<input type="text" th:field="*{name}" id="name" required />
+            	</div>
 
-            <div class="form-actions">
-                <button type="submit">Update Item</button>
-                <a th:href="@{'/admin/restaurants/' + ${restaurantId} + '/menu'}" class="cancel-button">Cancel</a>
-            </div>
-        </form>
-    </div>
-</body>
+            	<div class="form-group">
+                	<label for="description">Description</label>
+                	<textarea th:field="*{description}" id="description" required></textarea>
+            	</div>
+
+            	<div class="form-group">
+                	<label for="price">Price</label>
+                	<input type="number" step="0.01" th:field="*{price}" id="price" required />
+            	</div>
+
+            	<!-- Hidden restaurant ID field -->
+            	<input type="hidden" th:field="*{restaurant.id}" th:value="${restaurantId}" />
+
+            	<div class="form-actions">
+                	<button type="submit" class="btn btn-primary">Update Item</button>
+                	<a th:href="@{'/admin/restaurants/' + ${restaurantId} + '/menus'}" class="cancel-button">Cancel</a>
+            	</div>
+        	</form>
+    	</div>
+
+    	<div th:replace="~{fragments/footer :: footer}"></div>
+	</body>
 </html>
-

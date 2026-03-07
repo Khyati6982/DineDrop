@@ -39,7 +39,7 @@ public class CartController {
             throw new RuntimeException("Menu item not found with ID: " + menuItemId);
         }
 
-        // ✅ Stock check
+        // Stock check
         if (!menuItem.isInStock()) {
             return ResponseEntity.status(400).body("Item is out of stock.");
         }
@@ -104,4 +104,3 @@ public class CartController {
         return ResponseEntity.ok("Quantity updated.");
     }
 }
-

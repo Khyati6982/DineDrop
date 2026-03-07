@@ -29,5 +29,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
-.vscode/
+# Docker files
+docker-compose.override.yml
+docker-compose.local.yml
+
+# Environment files
+.env
+.env.*

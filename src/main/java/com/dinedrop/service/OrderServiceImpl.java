@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -28,9 +29,28 @@ public class OrderServiceImpl implements OrderService {
     public Order placeOrder(Long userId, List<Long> menuItemIds, List<Integer> quantities, String deliveryAddress) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
+        
+        if (menuItemIds.isEmpty()) { 
+            throw new RuntimeException("No menu items provided"); 
+        }
+        
+        // Fetch first menu item to determine restaurant 
+        MenuItem firstItem = menuItemRepository.findById(menuItemIds.get(0)) 
+                .orElseThrow(() -> new RuntimeException("Menu item not found")); 
+        Restaurant restaurant = firstItem.getRestaurant();
+        
+        // Validate all items belong to the same restaurant 
+        for (Long itemId : menuItemIds) { 
+            MenuItem item = menuItemRepository.findById(itemId) 
+                    .orElseThrow(() -> new RuntimeException("Menu item not found")); 
+            if (!item.getRestaurant().equals(restaurant)) { 
+                throw new RuntimeException("All items in an order must be from the same restaurant"); 
+            } 
+        }
+        
         Order order = new Order();
         order.setUser(user);
+        order.setRestaurant(restaurant);
         order.setDeliveryAddress(deliveryAddress);
         order.setOrderTime(LocalDateTime.now());
         order.setPaymentStatus("PENDING"); // initially pending
@@ -66,9 +86,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getOrdersByUser(Long userId) {
-        User user = userRepository.findById(userId)
+        userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return orderRepository.findByUser(user);
+        return orderRepository.findOrdersWithDetailsByUserId(userId);
     }
 
     @Override
@@ -92,10 +112,22 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
-    // Lookup order by Stripe session ID
     @Override
     public Order getOrderBySessionId(String stripeSessionId) {
-        return orderRepository.findByStripeSessionId(stripeSessionId)
-                .orElseThrow(() -> new RuntimeException("Order not found for session: " + stripeSessionId));
+        return orderRepository.findByStripeSessionId(stripeSessionId).orElse(null);
+    }
+
+    // Added for AdminOrderController
+    public Order findById(Long id) {
+        Optional<Order> orderOpt = orderRepository.findById(id);
+        return orderOpt.orElse(null);
+    }
+
+    public void save(Order order) {
+        orderRepository.save(order);
+    }
+
+    public List<Order> findAll() {
+        return orderRepository.findAll();
     }
 }

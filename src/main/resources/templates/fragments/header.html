@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+</head>
+<body>
+<div th:fragment="navbar">
+    <nav class="navbar">
+        <!-- Common link -->
+        <a th:href="@{/}" class="nav-link">🏠 Home</a>
+
+        <!-- Show login/register if no user -->
+        <span th:if="${session.loggedInUser == null}">
+            <a th:href="@{/login}" class="nav-link">Login</a>
+            <a th:href="@{/register}" class="nav-link">Register</a>
+        </span>
+
+        <!-- User navigation -->
+        <span th:if="${session.loggedInUser != null and session.loggedInUser.role != null and session.loggedInUser.role.contains('USER')}">
+            <a th:href="@{/restaurants}" class="nav-link">🍽️ Browse Restaurants</a>
+            <a th:href="@{/orders}" class="nav-link">📦 My Orders</a>
+            Welcome, <span th:text="${session.loggedInUser.username}"></span>
+            <a th:href="@{/logout}" class="nav-link">🚪 Logout</a>
+        </span>
+
+        <!-- Admin navigation -->
+        <span th:if="${session.loggedInUser != null and session.loggedInUser.role != null and session.loggedInUser.role.contains('ADMIN')}">
+            <a th:href="@{/admin/dashboard}" class="nav-link">📊 Dashboard</a>
+            <a th:href="@{/admin/restaurants}" class="nav-link">🏢 Manage Restaurants</a>
+            <a th:href="@{/admin/menus}" class="nav-link">📋 Manage Menus</a>
+            <a th:href="@{/admin/orders}" class="nav-link">📦 View Orders</a>
+            Welcome, <span th:text="${session.loggedInUser.username}"></span>
+            <a th:href="@{/logout}" class="nav-link">🚪 Logout</a>
+        </span>
+    </nav>
+    <hr/>
+</div>
+</body>
+</html>

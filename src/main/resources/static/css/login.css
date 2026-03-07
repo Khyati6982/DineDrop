@@ -1,29 +1,24 @@
-/* 🔐 Login Page Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.login-container {
-    background-color: #ffffff;
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+/* Shared form container overrides */
+.login-container,
+.forgot-container,
+.reset-container {
     width: 400px;
+    margin: 60px auto;        /* center horizontally */
     text-align: center;
+    padding: 30px 40px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.login-container h2 {
+/* Heading spacing */
+.login-container h2,
+.forgot-container h2,
+.reset-container h2 {
     margin-bottom: 20px;
-    color: #333;
 }
 
+/* Form layout */
 form {
     display: flex;
     flex-direction: column;
@@ -31,49 +26,51 @@ form {
     text-align: left;
 }
 
+/* Label overrides */
 label {
-    font-weight: bold;
     margin-bottom: 5px;
 }
 
-input[type="email"],
-input[type="password"] {
+/* Error message */
+.login-container .error-message {
+    color: #d32f2f !important;
+    background: #ffe6e6;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 100%;
+    border-radius: 4px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 600;
 }
 
-button {
-    padding: 12px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
+/* Success message */
+.login-container .success-message {
+    color: #2e7d32 !important;
+    background: #e6ffe6;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 600;
 }
 
-button:hover {
-    background-color: #218838;
-}
-
-.error-message {
-    color: red;
-    margin-top: 10px;
-}
-
+/* Register link */
 .register-link {
     margin-top: 20px;
     font-size: 14px;
+    text-align: center;
 }
 
 .register-link a {
-    color: #007bff;
-    text-decoration: none;
     font-weight: bold;
 }
 
-.register-link a:hover {
-    text-decoration: underline;
+/* Forgot password link */
+.forgot-password-link {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.forgot-password-link a {
+    font-weight: bold;
 }

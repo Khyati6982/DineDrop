@@ -3,19 +3,26 @@
 <head>
     <title>User Home - DineDrop</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
     <link rel="stylesheet" href="/css/user_home.css">
 </head>
 <body>
+	<div th:replace="~{fragments/header :: navbar}"></div>
+    
     <div class="container">
         <header>
-            <h1>Welcome, <span th:text="${user.username}">User</span>!</h1>
+            <h1>DineDrop</h1>
             <p class="tagline">Explore restaurants, place orders, and track your meals.</p>
         </header>
-
-        <nav class="nav-links">
-            <a th:href="@{/restaurants}">🍽️ Browse Restaurants</a>
-            <a th:href="@{/}">🚪 Logout</a>
-        </nav>
+        
+        <div class="quick-actions"> 
+        	<a th:href="@{/restaurants}" class="btn">🍽️ Browse Restaurants</a> 
+        	<a th:href="@{/orders}" class="btn">📦 My Orders</a> 
+        </div>
     </div>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

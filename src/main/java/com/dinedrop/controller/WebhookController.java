@@ -38,9 +38,11 @@ public class WebhookController {
     public ResponseEntity<String> handleStripeEvent(HttpServletRequest request,
                                                     @RequestHeader("Stripe-Signature") String sigHeader) throws IOException {
         // Read raw payload from Stripe
-        String payload = new BufferedReader(new InputStreamReader(request.getInputStream()))
-                .lines().collect(Collectors.joining("\n"));
-
+        String payload;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
+        	payload = reader.lines().collect(Collectors.joining("\n"));
+        }
+                
         logger.info("Webhook payload received: {}", payload);
 
         Event event;
@@ -61,11 +63,16 @@ public class WebhookController {
                 try {
                     Long orderId = Long.valueOf(session.getClientReferenceId());
 
-                    // Update order status in DB
-                    orderService.updatePaymentStatus(orderId, "PAID", session.getId());
+                    // Fetch order
+                    Order order = orderService.getOrderDetails(orderId);
+
+                    // Update order status and save both IDs
+                    order.setPaymentStatus("PAID");
+                    order.setStripeSessionId(session.getId());
+                    order.setStripePaymentId(session.getPaymentIntent());
+                    orderService.save(order);
 
                     // Clear cart only after payment success
-                    Order order = orderService.getOrderDetails(orderId);
                     cartService.clearCart(order.getUser());
 
                 } catch (NumberFormatException e) {

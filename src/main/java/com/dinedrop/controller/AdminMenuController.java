@@ -20,14 +20,14 @@ public class AdminMenuController {
     @Autowired
     private RestaurantService restaurantService;
 
-    // ✅ Show all menu items (global view)
+    // Show all menu items (global view)
     @GetMapping
     public String listMenuItems(Model model) {
         model.addAttribute("menuItems", menuItemService.getAllMenuItems());
         return "admin/menu_list";
     }
 
-    // ✅ Show add form (global, not restaurant-scoped)
+    // Show add form (global, not restaurant-scoped)
     @GetMapping("/add")
     public String showAddForm(Model model) {
         model.addAttribute("menuItem", new MenuItem());
@@ -35,7 +35,7 @@ public class AdminMenuController {
         return "admin/add_menu_item";
     }
 
-    // ✅ Handle add form submission
+    // Handle add form submission
     @PostMapping("/add")
     public String addMenuItem(@ModelAttribute MenuItem menuItem,
                               RedirectAttributes redirectAttributes) {
@@ -49,7 +49,7 @@ public class AdminMenuController {
         return "redirect:/admin/restaurants/" + restaurant.getId() + "/menu";
     }
 
-    // ✅ Show edit form
+    // Show edit form
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         MenuItem item = menuItemService.findById(id);
@@ -60,7 +60,7 @@ public class AdminMenuController {
         model.addAttribute("menuItem", item);
         model.addAttribute("restaurants", restaurantService.getAllRestaurants());
 
-        // ✅ Add restaurantId explicitly
+        // Add restaurantId explicitly
         if (item.getRestaurant() != null) {
             model.addAttribute("restaurantId", item.getRestaurant().getId());
         }
@@ -68,7 +68,7 @@ public class AdminMenuController {
         return "admin/edit_menu_item";
     }
 
-    // ✅ Handle edit form submission
+    // Handle edit form submission
     @PostMapping("/edit/{id}")
     public String updateMenuItem(@PathVariable Long id,
                                  @ModelAttribute MenuItem menuItem,
@@ -90,7 +90,7 @@ public class AdminMenuController {
         return "redirect:/admin/menu";
     }
 
-    // ✅ Toggle stock status
+    // Toggle stock status
     @PostMapping("/{itemId}/toggle-stock")
     public String toggleStock(@PathVariable Long itemId,
                               RedirectAttributes redirectAttributes) {
@@ -109,7 +109,7 @@ public class AdminMenuController {
         return "redirect:/admin/menu";
     }
 
-    // ✅ Delete menu item
+    // Delete menu item
     @GetMapping("/delete/{id}")
     public String deleteMenuItem(@PathVariable Long id) {
         MenuItem item = menuItemService.findById(id);

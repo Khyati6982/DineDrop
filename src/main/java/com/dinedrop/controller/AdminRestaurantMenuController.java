@@ -20,7 +20,7 @@ public class AdminRestaurantMenuController {
     @Autowired
     private MenuItemService menuItemService;
 
-    // 🧾 List all menu items for a restaurant
+    // List all menu items for a restaurant
     @GetMapping
     public String listMenuItems(@PathVariable Long restaurantId,
                                 Model model,
@@ -36,7 +36,7 @@ public class AdminRestaurantMenuController {
         return "admin/restaurant_menu_list";
     }
 
-    // ➕ Show form to add a new menu item
+    // Show form to add a new menu item
     @GetMapping("/add")
     public String showAddForm(@PathVariable Long restaurantId, Model model) {
         Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
@@ -52,7 +52,7 @@ public class AdminRestaurantMenuController {
         return "admin/add_menu_item";
     }
 
-    // ✅ Handle submission of new menu item
+    // Handle submission of new menu item
     @PostMapping("/add")
     public String addMenuItem(@PathVariable Long restaurantId,
                               @ModelAttribute MenuItem menuItem,
@@ -69,7 +69,7 @@ public class AdminRestaurantMenuController {
         return "redirect:/admin/restaurants/" + restaurantId + "/menu";
     }
 
-    // 🔄 Toggle stock status of a menu item
+    // Toggle stock status of a menu item
     @PostMapping("/{itemId}/toggle-stock")
     public String toggleStock(@PathVariable Long restaurantId,
                               @PathVariable Long itemId,
@@ -86,7 +86,7 @@ public class AdminRestaurantMenuController {
         return "redirect:/admin/restaurants/" + restaurantId + "/menu";
     }
 
-    // ✏️ Show form to edit a menu item
+    // Show form to edit a menu item
     @GetMapping("/edit/{itemId}")
     public String showEditForm(@PathVariable Long restaurantId,
                                @PathVariable Long itemId,
@@ -103,7 +103,7 @@ public class AdminRestaurantMenuController {
         return "admin/edit_menu_item";
     }
 
-    // ✅ Handle submission of edited menu item
+    // Handle submission of edited menu item
     @PostMapping("/edit/{itemId}")
     public String updateMenuItem(@PathVariable Long restaurantId,
                                  @PathVariable Long itemId,
@@ -125,7 +125,7 @@ public class AdminRestaurantMenuController {
         return "redirect:/admin/restaurants/" + restaurantId + "/menu";
     }
 
-    // 🗑️ Delete a menu item
+    // Delete a menu item
     @GetMapping("/delete/{itemId}")
     public String deleteMenuItem(@PathVariable Long restaurantId,
                                  @PathVariable Long itemId,

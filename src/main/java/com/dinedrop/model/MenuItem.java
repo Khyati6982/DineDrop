@@ -18,7 +18,7 @@ public class MenuItem {
     private Restaurant restaurant;
 
     @Column(nullable = false)
-    private boolean inStock = true; // ✅ New field to track stock status
+    private boolean inStock = true;
 
     // Constructors
     public MenuItem() {}
@@ -80,4 +80,3 @@ public class MenuItem {
         this.inStock = inStock;
     }
 }
-

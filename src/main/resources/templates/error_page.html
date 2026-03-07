@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/checkout-flow.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: navbar}"></div>
+
+    <div class="container admin-form-container">
+        <h2>Something went wrong</h2>
+
+        <p th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
+
+        <div class="back-link">
+            <a th:href="@{/}">← Back to Home</a>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

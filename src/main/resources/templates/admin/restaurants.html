@@ -3,12 +3,18 @@
 <head>
     <title>Restaurants - DineDrop Admin</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
 <body>
+	<div th:replace="~{fragments/header :: navbar}"></div>
+	
     <div class="list-container">
         <h2>All Restaurants</h2>
 
+        <a th:href="@{/admin/dashboard}" class="back-link">← Back to Admin Dashboard</a> <br> <br>
         <a th:href="@{/admin/restaurants/add}" class="add-button">+ Add New Restaurant</a>
 
         <table>
@@ -33,17 +39,16 @@
                         <span th:if="${#lists.isEmpty(r.menuItems)}" class="empty-message">No items</span>
                     </td>
                     <td>
-                        <a th:href="@{'/admin/restaurants/edit/' + ${r.id}}" class="edit-button">Edit</a>
-                        <a th:href="@{'/admin/restaurants/delete/' + ${r.id}}" class="delete-button"
-                           onclick="return confirm('Are you sure you want to delete this restaurant?');">Delete</a>
-                        <a th:href="@{'/admin/restaurants/' + ${r.id} + '/menu/add'}" class="menu-button">+ Add Menu Item</a>
-                    </td>
+    					<a th:href="@{'/admin/restaurants/edit/' + ${r.id}}" class="edit-button">Edit</a>
+    					<a th:href="@{'/admin/restaurants/delete/' + ${r.id}}" class="delete-button"
+       					onclick="return confirm('Are you sure you want to delete this restaurant?');">Delete</a>
+    					<a th:href="@{'/admin/restaurants/' + ${r.id} + '/menus'}" class="menu-button">View Menus</a>
+					</td>
                 </tr>
             </tbody>
         </table>
-
-        <a th:href="@{/admin/dashboard}" class="back-link">← Back to Admin Dashboard</a>
     </div>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
-

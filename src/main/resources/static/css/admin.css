@@ -1,28 +1,14 @@
-/* 🧭 Admin Dashboard Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-}
-
+/* Admin container overrides */
 .admin-container {
-    background-color: #ffffff;
-    padding: 40px 50px;
     margin-top: 60px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    width: 600px;
+    width: 600px; 
     text-align: center;
+    padding: 40px 50px;
 }
 
+/* Admin-specific text */
 .admin-container h2 {
     margin-bottom: 10px;
-    color: #333;
 }
 
 .admin-container p {
@@ -31,6 +17,7 @@ body {
     color: #555;
 }
 
+/* Dashboard navigation */
 nav {
     display: flex;
     justify-content: center;
@@ -39,62 +26,17 @@ nav {
 }
 
 nav a {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
     font-weight: bold;
-    transition: background-color 0.3s ease;
 }
 
-nav a:hover {
-    background-color: #0056b3;
-}
-
+/* Form container */
 .form-container {
     max-width: 600px;
     margin: auto;
-    background: white;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
+/* Update button variant */
 button.update {
     background-color: #28a745;
 }
@@ -103,60 +45,104 @@ button.update:hover {
     background-color: #218838;
 }
 
-a {
-    display: block;
-    margin-top: 15px;
-    text-align: center;
-    color: #007bff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
+/* List container */
 .list-container {
     width: 80%;
     margin: auto;
     padding: 20px;
 }
 
+/* Table overrides */
 table {
-    width: 100%;
-    border-collapse: collapse;
     margin-top: 15px;
 }
 
 th, td {
     padding: 10px;
-    border: 1px solid #ccc;
     text-align: left;
 }
 
-.add-button, .edit-button, .delete-button, .back-link {
-    margin-right: 10px;
-    text-decoration: none;
+/* Menu actions container */
+.menu-actions {
+    display: flex;
+    gap: 10px;          /* spacing between buttons */
+    flex-wrap: wrap;    /* allows wrapping on smaller screens */
+    align-items: center;
+}
+
+.menu-actions a,
+.menu-actions button {
+    flex: 0 0 auto;     
     padding: 6px 12px;
     border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
 }
 
-.add-button {
-    background-color: #4CAF50;
+/* Action buttons */
+.add-button, .edit-button, .delete-button, .back-link {
+    margin-right: 10px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+/* Fix action buttons overlap in Manage Restaurants */
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;     /* allow wrapping on smaller screens */
+    gap: 10px;
+    justify-content: center;
+}
+
+.action-buttons .btn,
+.action-buttons a {
+    flex: 1 1 120px;     /* minimum width so text doesn’t break */
+    min-width: 140px;
+    white-space: nowrap;	
+    text-align: center;
+    padding: 8px 12px;
+}
+
+
+/* Button styles */
+.add-button { 
+    background-color: #4CAF50; 
+    color: white; 
+}
+.add-button:hover {
+    background-color: #45a049;
+}
+
+.edit-button { 
+    background-color: #2196F3; 
+    color: white; 
+}
+.edit-button:hover {
+    background-color: #1976D2;
+}
+
+.delete-button { 
+    background-color: #f44336; 
+    color: white; 
+}
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+.toggle-button {
+    background-color: #ff704d;
     color: white;
+    border: none;
+}
+.toggle-button:hover {
+    background-color: #e65c33;
 }
 
-.edit-button {
-    background-color: #2196F3;
-    color: white;
+.back-link { 
+    color: #555; 
 }
-
-.delete-button {
-    background-color: #f44336;
-    color: white;
-}
-
-.back-link {
-    display: inline-block;
-    margin-top: 20px;
-    color: #555;
+.back-link:hover {
+    color: #333;
 }

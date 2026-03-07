@@ -2,14 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>DineDrop</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
-<body>
+<body>    
     <div class="card">
         <h3>Welcome to DineDrop 🍽️</h3>
-        <p>Order your favorite dishes or manage restaurants.</p>
+        <p>Order your favorite dishes.</p>
         <a href="/login" class="btn">Login</a>
         <a href="/restaurants" class="btn">Browse Restaurants</a>
     </div>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

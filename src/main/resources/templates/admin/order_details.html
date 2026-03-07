@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Order Details</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-table.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: navbar}"></div>
+
+    <div class="admin-details-container">
+        <h2>📋 Order Details</h2>
+
+        <div class="back-link">
+            <a th:href="@{/admin/orders}">← Back to Orders</a>
+        </div>
+
+        <!-- Items first -->
+        <h3>🍽️ Items</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Dish</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Restaurant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${order.items}">
+                    <td th:text="${item.menuItem.name}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td th:text="${item.menuItem.restaurant.name}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Order Summary after items -->
+        <div class="order-summary-card">
+            <h3>Order Summary</h3>
+            <ul>
+                <li><strong>Order ID:</strong> <span th:text="${order.id}"></span></li>
+                <li><strong>User:</strong> <span th:text="${order.user.username}"></span></li>
+                <li><strong>Total Amount:</strong> ₹<span th:text="${order.totalAmount}"></span></li>
+                
+                <!-- Lifecycle Status -->
+                <li><strong>Status:</strong> 
+                    <span th:text="${order.status}"></span>
+                </li>
+                
+                <!-- Payment Status -->
+                <li><strong>Payment Status:</strong> 
+                    <span th:text="${order.paymentStatus}"></span>
+                </li>
+
+                <!-- Stripe IDs -->
+                <li><strong>Stripe Session ID:</strong> 
+                    <span th:text="${order.stripeSessionId}"></span>
+                </li>
+                <li><strong>Stripe Payment ID:</strong> 
+                    <span th:text="${order.stripePaymentId}"></span>
+                </li>
+
+                <li><strong>Placed On:</strong> 
+                    <span th:text="${#temporals.format(order.orderTime, 'dd-MMM-yyyy HH:mm')}"></span>
+                </li>
+                <li><strong>Delivery Address:</strong> 
+                    <span th:text="${order.deliveryAddress}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

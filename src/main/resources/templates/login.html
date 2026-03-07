@@ -2,7 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login - DineDrop</title>
-    <meta charset="UTF-8">
+   	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
@@ -15,7 +18,7 @@
             <label>Password:</label>
             <input type="password" th:field="*{password}" required />
 
-            <button type="submit">Login</button>
+            <button type="submit" class="btn btn-success">Login</button>
         </form>
 
         <p class="error-message" th:if="${error}" th:text="${error}"></p>
@@ -23,6 +26,11 @@
         <p class="register-link">
             Don't have an account?
             <a th:href="@{/register}">Register here</a>
+        </p>
+
+        <p class="forgot-password-link">
+            Forgot your password?
+            <a th:href="@{/forgot-password}">Reset here</a>
         </p>
     </div>
 </body>

@@ -19,13 +19,24 @@ public class Order {
 
     private String paymentStatus; // e.g., "PAID", "PENDING", "FAILED"
 
-    private String stripeSessionId; 
-    
+    @Column(name = "stripe_session_id")
+    private String stripeSessionId;
+
+    @Column(name = "stripe_payment_id") 
+    private String stripePaymentId;
+
     private LocalDateTime orderTime;
+
+    private String status; // e.g., "Pending", "Processing", "Delivered", "Cancelled"
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    // Enforce one restaurant per order
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items;
@@ -71,6 +82,13 @@ public class Order {
         this.stripeSessionId = stripeSessionId;
     }
 
+    public String getStripePaymentId() {
+        return stripePaymentId;
+    }
+    public void setStripePaymentId(String stripePaymentId) {
+        this.stripePaymentId = stripePaymentId;
+    }
+
     public LocalDateTime getOrderTime() {
         return orderTime;
     }
@@ -78,11 +96,25 @@ public class Order {
         this.orderTime = orderTime;
     }
 
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public User getUser() {
         return user;
     }
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public List<OrderItem> getItems() {

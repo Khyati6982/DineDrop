@@ -3,6 +3,9 @@
 <head>
     <title>Register - DineDrop</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/css/register.css}">
 </head>
 <body>
@@ -13,18 +16,24 @@
             <input type="text" th:field="*{username}" required />
 
             <label>Email:</label>
-            <input type="email" th:field="*{email}" required />
+            <input type="email" th:field="*{email}" 
+                   required 
+                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                   title="Please enter a valid email address" />
 
             <label>Password:</label>
             <input type="password" th:field="*{password}" required />
 
             <label>Phone:</label>
-            <input type="text" th:field="*{phone}" />
+            <input type="tel" th:field="*{phone}" 
+                   pattern="[0-9]{10}" 
+                   title="Phone number must be 10 digits" 
+                   maxlength="10" />
 
             <label>Address:</label>
             <input type="text" th:field="*{address}" />
 
-            <button type="submit">Register</button>
+            <button type="submit" class="btn btn-primary">Register</button>
         </form>
 
         <p class="error-message" th:if="${error}" th:text="${error}"></p>

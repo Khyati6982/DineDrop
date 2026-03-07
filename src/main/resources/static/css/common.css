@@ -1,0 +1,136 @@
+/* Base Layout */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Containers */
+.container, .admin-container, .login-container, .register-container, .cart-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+/* Cards */
+.card, .menu-card, .restaurant-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover, .menu-card:hover, .restaurant-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Buttons */
+.btn, button {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+/* Button Variants */
+.btn-primary, button.primary { background:#007bff; color:#fff; }
+.btn-primary:hover, button.primary:hover { background:#0056b3; color:#fff; }
+
+.btn-success, button.success { background:#28a745; color:#fff; }
+.btn-success:hover, button.success:hover { background:#218838; color:#fff; }
+
+.btn-danger, button.danger { background:#dc3545; color:#fff; }
+.btn-danger:hover, button.danger:hover { background:#c82333; color:#fff; }
+
+.btn-warning, button.warning { background:#ff704d; color:#fff; }
+.btn-warning:hover, button.warning:hover { background:#e65c33; color:#fff; }
+
+/* Links */
+a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Normal links only (not buttons) */
+a:not(.btn):not(.add-button):not(.edit-button):not(.delete-button):not(.toggle-button):not(.back-link):hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Button links should keep white text on hover */
+.add-button:hover,
+.edit-button:hover,
+.delete-button:hover,
+.toggle-button:hover,
+.back-link:hover {
+    color: #fff !important;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff;
+}
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Forms */
+label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+}
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+/* Navigation */
+nav {
+    margin: 20px 0;
+    text-align: center;
+}
+nav a {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+/* Footer */
+footer {
+    margin: 2px 0;
+    text-align: center;
+}

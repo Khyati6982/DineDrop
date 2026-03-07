@@ -3,11 +3,21 @@
 <head>
     <title>Menu - [[${restaurant.name}]]</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
 <body>
+	<div th:replace="~{fragments/header :: navbar}"></div>
+	
     <div class="list-container">
         <h2>Menu Items for <span th:text="${restaurant.name}">Restaurant</span></h2>
+        
+        <div class="back-link"> 
+        	<a th:href="@{/admin/restaurants}">← Back to Restaurants</a> 
+        </div>
+        
         <a th:href="@{'/admin/restaurants/' + ${restaurant.id} + '/menu/add'}" class="add-button">+ Add New Item</a>
         
         <table>
@@ -27,21 +37,20 @@
                     <td th:text="${item.price}">Price</td>
                     <td th:text="${item.inStock ? 'Available' : 'Out of Stock'}">Status</td>
                     <td>
-                        <form th:action="@{'/admin/menu/' + ${item.id} + '/toggle-stock'}"
-                              method="post" style="display:inline;">
-                            <button type="submit" class="stock-button"
-                                    th:text="${item.inStock ? 'Mark Out of Stock' : 'Mark In Stock'}"></button>
-                        </form>
-                        <a th:href="@{'/admin/menu/edit/' + ${item.id}}" class="edit-button">Edit</a>
-                        <a th:href="@{'/admin/menu/delete/' + ${item.id}}" class="delete-button"
-                           onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
-                    </td>
+    					<div class="menu-actions">
+        					<a th:href="@{'/admin/menu/edit/' + ${item.id}}" class="edit-button">Edit</a>
+        					<a th:href="@{'/admin/menu/delete/' + ${item.id}}" class="delete-button"
+           					onclick="return confirm('Are you sure you want to delete this dish?');">Delete</a>
+        					<form th:action="@{'/admin/menu/' + ${item.id} + '/toggle-stock'}" method="post">
+            					<button type="submit" class="toggle-button">Toggle Stock</button>
+        					</form>
+    					</div>
+					</td>
                 </tr>
             </tbody>
         </table>
-
-        <a th:href="@{/admin/restaurants}" class="back-link">← Back to Restaurants</a>
     </div>
+    
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
-

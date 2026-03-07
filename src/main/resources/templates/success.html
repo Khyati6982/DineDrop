@@ -3,19 +3,28 @@
 <head>
     <title>Payment Success - DineDrop</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/checkout-flow.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/checkout-flow.css}">
 </head>
 <body>
+    <div th:replace="~{fragments/header :: navbar}"></div>
+
     <div class="container">
         <h2>✅ Payment Successful!</h2>
         <p>Thank you, <span th:text="${user.username}">Customer</span>. Your payment has been received.</p>
         <p><strong>Order ID:</strong> <span th:text="${order.id}">#12345</span></p>
         <p><strong>Status:</strong> <span th:text="${order.paymentStatus}">PAID</span></p>
-
-        <nav>
+        <p><strong>Stripe Session ID:</strong> <span th:text="${stripeSessionId}"></span></p>
+		<p><strong>Stripe Payment ID:</strong> <span th:text="${stripePaymentId}"></span></p>
+        
+        <div class="success-links">
             <a th:href="@{/orders}">📦 View My Orders</a> |
             <a th:href="@{/restaurants}">🍽️ Browse More</a>
-        </nav>
+        </div>
     </div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

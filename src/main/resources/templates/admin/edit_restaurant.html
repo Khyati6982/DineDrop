@@ -1,30 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Edit Restaurant - DineDrop Admin</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/admin-form.css}">
-</head>
-<body>
-    <div class="admin-form-container">
-        <h2>Edit Restaurant</h2>
+	<head>
+    	<title>Edit Restaurant</title>
+    	<meta charset="UTF-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<link rel="stylesheet" th:href="@{/css/common.css}">
+    	<link rel="stylesheet" th:href="@{/css/admin-form.css}">
+	</head>
+	<body>
+		<div class="container admin-form-container">
+    		<h2>Edit Restaurant</h2>
+    		<form th:action="@{/admin/restaurants/edit/{id}(id=${restaurant.id})}" th:object="${restaurant}" method="post">
 
-        <form th:action="@{'/admin/restaurants/edit/' + ${restaurant.id}}" method="post" th:object="${restaurant}">
-            <label for="name">Name:</label>
-            <input type="text" id="name" th:field="*{name}" required />
+        		<div class="form-group">
+            		<label for="name">Name</label>
+            		<input type="text" th:field="*{name}" id="name" required>
+        		</div>
 
-            <label for="cuisine">Cuisine:</label>
-            <input type="text" id="cuisine" th:field="*{cuisine}" required />
+        		<div class="form-group">
+            		<label for="cuisine">Cuisine</label>
+            		<input type="text" th:field="*{cuisine}" id="cuisine" required>
+        		</div>
 
-            <label for="location">Location:</label>
-            <input type="text" id="location" th:field="*{location}" required />
+        		<div class="form-group">
+            		<label for="location">Location</label>
+            		<input type="text" th:field="*{location}" id="location" required>
+        		</div>
 
-            <button type="submit">Update</button>
-        </form>
+        		<div class="form-actions">
+            		<button type="submit" class="btn btn-primary">Update</button>
+            		<a th:href="@{/admin/restaurants}" class="cancel-button">Cancel</a>
+        		</div>
+    		</form>
+		</div>
 
-        <div class="back-link">
-            <a th:href="@{/admin/restaurants}">← Back to List</a>
-        </div>
-    </div>
-</body>
+		<div th:replace="~{fragments/footer :: footer}"></div>
+	</body>
 </html>

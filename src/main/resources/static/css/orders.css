@@ -1,0 +1,14 @@
+/* Status badges for user orders */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.status-pending { background-color: #ff9800; }
+.status-processing { background-color: #2196f3; }
+.status-delivered { background-color: #4caf50; }
+.status-cancelled { background-color: #f44336; }

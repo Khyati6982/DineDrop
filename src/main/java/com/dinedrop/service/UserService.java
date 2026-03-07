@@ -6,13 +6,15 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    // ✅ Authenticate user
+    // Authenticate user
     public User login(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user != null && user.getPassword().equals(password)) {
@@ -22,24 +24,30 @@ public class UserService {
         return null;
     }
 
-    // ✅ Invalidate session
+    // Invalidate session
     public void logout(HttpSession session) {
         session.invalidate();
     }
 
-    // ✅ Save new user
+    // Save new user
     public void saveUser(User user) {
         userRepository.save(user);
     }
 
-    // ✅ Get user from session
+    // Get user from session
     public User getLoggedInUser(HttpSession session) {
         Object obj = session.getAttribute("loggedInUser");
         return (obj instanceof User) ? (User) obj : null;
     }
 
-    // ✅ Find user by email
+    // Find user by email
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    // Find user by ID for reset-password
+    public User findById(Long id) {
+        Optional<User> userOpt = userRepository.findById(id);
+        return userOpt.orElse(null);
     }
 }
