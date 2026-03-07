@@ -1,43 +1,70 @@
 /* Container overrides */
 .container {
     max-width: 800px;
-    margin: 60px auto;
-    padding: 40px;
+    width: 95%;            
+    margin: 40px auto;
+    padding: 30px;
     border-radius: 12px;
     text-align: center;
+    box-sizing: border-box;
 }
 
 /* Header */
-header h1 {
-    font-size: 2.5em;
+header h2 {
+    font-size: 2.2em;
     margin-bottom: 10px;
 }
 
 /* Tagline */
 .tagline {
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: #666;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
-/* Navigation links */
-.nav-links {
+/* Quick actions */
+.quick-actions {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
+    flex-wrap: wrap;  
     margin-top: 20px;
 }
 
-.nav-links a {
+.quick-actions a {
     color: #0077cc;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: 2px solid #0077cc;
     border-radius: 8px;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
-.nav-links a:hover {
+.quick-actions a:hover {
     background-color: #0077cc;
     color: #fff;
+}
+
+/* Responsive overrides */
+@media (max-width: 768px) {
+    header h2 {
+        font-size: 1.8em;
+    }
+    .tagline {
+        font-size: 1em;
+    }
+    .quick-actions a {
+        width: 100%;       
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h2 {
+        font-size: 1.5em;
+    }
+    .container {
+        padding: 20px;
+    }
 }

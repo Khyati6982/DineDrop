@@ -71,7 +71,7 @@ a {
 }
 
 /* Normal links only (not buttons) */
-a:not(.btn):not(.add-button):not(.edit-button):not(.delete-button):not(.toggle-button):not(.back-link):hover {
+a:not(.btn):not(.add-button):not(.edit-button):not(.delete-button):not(.toggle-button):not(.back-link):hover:not(.cancel-button):hovernot(.add-more-btn):hovernot(.browse-btn):hover {
     text-decoration: underline;
     color: #0056b3;
 }
@@ -80,8 +80,7 @@ a:not(.btn):not(.add-button):not(.edit-button):not(.delete-button):not(.toggle-b
 .add-button:hover,
 .edit-button:hover,
 .delete-button:hover,
-.toggle-button:hover,
-.back-link:hover {
+.toggle-button:hover {
     color: #fff !important;
 }
 

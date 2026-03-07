@@ -44,7 +44,13 @@ public class CartController {
             return ResponseEntity.status(400).body("Item is out of stock.");
         }
 
-        cartService.addToCart(user, menuItem, 1); 
+        try {
+            cartService.addToCart(user, menuItem, 1);
+        } catch (IllegalArgumentException e) {
+            // One-restaurant restriction triggered
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+
         return ResponseEntity.ok("Item added to cart successfully.");
     }
 

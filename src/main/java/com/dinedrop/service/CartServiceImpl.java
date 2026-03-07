@@ -17,6 +17,23 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addToCart(User user, MenuItem menuItem, int quantity) {
+        // Get all items in the user's cart
+        List<CartItem> existingItems = cartItemRepository.findByUser(user);
+
+        if (!existingItems.isEmpty()) {
+            // Check the restaurant of the first item in the cart
+            Long existingRestaurantId = existingItems.get(0).getMenuItem().getRestaurant().getId();
+            Long newRestaurantId = menuItem.getRestaurant().getId();
+
+            // If restaurants differ, block addition
+            if (!existingRestaurantId.equals(newRestaurantId)) {
+                throw new IllegalArgumentException(
+                    "You can only order from one restaurant at a time. Clear your cart to add items from another restaurant."
+                );
+            }
+        }
+
+        // If item already exists, update quantity
         CartItem existingItem = cartItemRepository.findByUserAndMenuItem(user, menuItem);
         if (existingItem != null) {
             existingItem.setQuantity(existingItem.getQuantity() + quantity);

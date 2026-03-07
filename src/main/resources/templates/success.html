@@ -11,13 +11,11 @@
 <body>
     <div th:replace="~{fragments/header :: navbar}"></div>
 
-    <div class="container">
+    <div class="success-container">
         <h2>✅ Payment Successful!</h2>
         <p>Thank you, <span th:text="${user.username}">Customer</span>. Your payment has been received.</p>
         <p><strong>Order ID:</strong> <span th:text="${order.id}">#12345</span></p>
         <p><strong>Status:</strong> <span th:text="${order.paymentStatus}">PAID</span></p>
-        <p><strong>Stripe Session ID:</strong> <span th:text="${stripeSessionId}"></span></p>
-		<p><strong>Stripe Payment ID:</strong> <span th:text="${stripePaymentId}"></span></p>
         
         <div class="success-links">
             <a th:href="@{/orders}">📦 View My Orders</a> |

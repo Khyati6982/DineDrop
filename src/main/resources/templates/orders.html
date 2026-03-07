@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>My Orders - DineDrop</title>
-   <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/responsive.css}">
@@ -16,51 +16,55 @@
 
         <!-- If orders exist -->
         <div th:if="${#lists.size(orders) > 0}">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Restaurant</th>
-                        <th>Items</th>
-                        <th>Total Amount</th>
-                        <th>Status</th>
-                        <th>Placed On</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="order : ${orders}">
-                        <td th:text="${order.id}"></td>
-                        <td th:text="${order.restaurant.name}"></td>
-                        <td>
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Dish</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="item : ${order.items}">
-                                        <td th:text="${item.menuItem.name}"></td> 
-                                        <td th:text="${item.quantity}"></td> 
-                                        <td th:text="${item.price}"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                        <td th:text="${order.totalAmount}"></td>
-                        
-                        <!-- Status -->
-                        <td>
-                            <span th:class="'status-badge status-' + ${order.paymentStatus != null  ? order.paymentStatus.toLowerCase() : 'unknown'}"
-                                  th:text="${order.paymentStatus}"></span>
-                        </td>
-                        
-                        <td th:text="${#temporals.format(order.orderTime, 'dd-MMM-yyyy HH:mm')}"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Restaurant</th>
+                            <th>Items</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Placed On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="order : ${orders}">
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.restaurant.name}"></td>
+                            <td>
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Dish</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="item : ${order.items}">
+                                                <td th:text="${item.menuItem.name}"></td> 
+                                                <td th:text="${item.quantity}"></td> 
+                                                <td th:text="${item.price}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td th:text="${order.totalAmount}"></td>
+                            
+                            <!-- Status -->
+                            <td>
+                                <span th:class="'status-badge status-' + ${order.paymentStatus != null  ? order.paymentStatus.toLowerCase() : 'unknown'}"
+                                      th:text="${order.paymentStatus}"></span>
+                            </td>
+                            
+                            <td th:text="${#temporals.format(order.orderTime, 'dd-MMM-yyyy HH:mm')}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
             <!-- Centered Browse More -->
             <div class="orders-links" style="text-align: center; margin-top: 20px;"> 

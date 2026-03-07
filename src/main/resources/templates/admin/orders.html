@@ -4,90 +4,95 @@
     <title>Admin - Orders</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" th:href="@{/css/common.css}">
-    <link rel="stylesheet" th:href="@{/css/responsive.css}">
     <link rel="stylesheet" th:href="@{/css/admin-table.css}">
+    <link rel="stylesheet" th:href="@{/css/responsive.css}">
 </head>
 <body>
+    <!-- Header -->
     <div th:replace="~{fragments/header :: navbar}"></div>
     
     <div class="admin-table-container">
         <h2>📊 Manage Orders</h2>
         
+        <!-- Back link -->
         <div class="back-link"> 
             <a th:href="@{/admin/dashboard}">← Back to Admin Dashboard</a> 
         </div>
-        
-        <!-- Conditional rendering -->
+       
         <div th:if="${#lists.isEmpty(orders)}">
             <p>No orders found.</p>
         </div>
         
         <div th:if="${!#lists.isEmpty(orders)}">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>User</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Placed On</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="order : ${orders}">
-                        <td th:text="${order.id}"></td>
-                        <td th:text="${order.user.username}"></td>
-                        <td th:text="${order.totalAmount}"></td>
-                        
-                        <!-- Payment Status -->
-                        <td>
-                            <span th:class="'status-badge status-' + ${order.paymentStatus != null ? order.paymentStatus.toLowerCase() : 'unknown'}"
-                                  th:text="${order.paymentStatus}"></span>
-                        </td>
-                        
-                        <td th:text="${#temporals.format(order.orderTime, 'dd-MMM-yyyy HH:mm')}"></td>
-                        <td>
-                            <!-- Update Payment Status -->
-                            <form th:action="@{/admin/orders/updatePayment}" method="post" style="display:inline;">
-                                <input type="hidden" name="orderId" th:value="${order.id}" />
-                                <select name="paymentStatus">
-                                    <option th:selected="${order.paymentStatus == 'PENDING'}">PENDING</option>
-                                    <option th:selected="${order.paymentStatus == 'PAID'}">PAID</option>
-                                    <option th:selected="${order.paymentStatus == 'FAILED'}">FAILED</option>
-                                </select>
-                                <button type="submit" class="btn btn-sm btn-primary">Update Payment</button>
-                            </form>
-
-                            <!-- Update Lifecycle Status -->
-                            <form th:action="@{/admin/orders/updateStatus}" method="post" style="display:inline;">
-                                <input type="hidden" name="orderId" th:value="${order.id}" />
-                                <select name="status">
-                                    <option th:selected="${order.status == 'Pending'}">Pending</option>
-                                    <option th:selected="${order.status == 'Processing'}">Processing</option>
-                                    <option th:selected="${order.status == 'Delivered'}">Delivered</option>
-                                    <option th:selected="${order.status == 'Cancelled'}">Cancelled</option>
-                                </select>
-                                <button type="submit" class="btn btn-sm btn-secondary">Update Status</button>
-                            </form>
-
-                            <!-- Cancel Order -->
-                            <form th:action="@{/admin/orders/cancel}" method="post" style="display:inline;">
-                                <input type="hidden" name="orderId" th:value="${order.id}" />
-                                <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
-                            </form> 
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>User</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Placed On</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="order : ${orders}">
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.user.username}"></td>
+                            <td th:text="${order.totalAmount}"></td>
                             
-                            <!-- View Details -->
-                            <a th:href="@{/admin/orders/details/{id}(id=${order.id})}" 
-                               class="btn btn-sm btn-info">View Details</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            <!-- Payment Status -->
+                            <td>
+                                <span th:class="'status-badge status-' + ${order.paymentStatus != null ? order.paymentStatus.toLowerCase() : 'unknown'}"
+                                      th:text="${order.paymentStatus}"></span>
+                            </td>
+                            
+                            <td th:text="${#temporals.format(order.orderTime, 'dd-MMM-yyyy HH:mm')}"></td>
+                            <td>
+                                <!-- Update Payment Status -->
+                                <form th:action="@{/admin/orders/updatePayment}" method="post" style="display:inline;">
+                                    <input type="hidden" name="orderId" th:value="${order.id}" />
+                                    <select name="paymentStatus">
+                                        <option th:selected="${order.paymentStatus == 'PENDING'}">PENDING</option>
+                                        <option th:selected="${order.paymentStatus == 'PAID'}">PAID</option>
+                                        <option th:selected="${order.paymentStatus == 'FAILED'}">FAILED</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary">Update Payment</button>
+                                </form>
+
+                                <!-- Update Lifecycle Status -->
+                                <form th:action="@{/admin/orders/updateStatus}" method="post" style="display:inline;">
+                                    <input type="hidden" name="orderId" th:value="${order.id}" />
+                                    <select name="status">
+                                        <option th:selected="${order.status == 'Pending'}">Pending</option>
+                                        <option th:selected="${order.status == 'Processing'}">Processing</option>
+                                        <option th:selected="${order.status == 'Delivered'}">Delivered</option>
+                                        <option th:selected="${order.status == 'Cancelled'}">Cancelled</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-primary">Update Status</button>
+                                </form>
+
+                                <!-- Cancel Order -->
+                                <form th:action="@{/admin/orders/cancel}" method="post" style="display:inline;">
+                                    <input type="hidden" name="orderId" th:value="${order.id}" />
+                                    <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                                </form> 
+                                
+                                <!-- View Details -->
+                                <a th:href="@{/admin/orders/details/{id}(id=${order.id})}" 
+                                   class="btn btn-sm btn-info">View Details</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-    
+
     <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

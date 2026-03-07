@@ -6,6 +6,22 @@
     margin-top: 20px;
 }
 
+/* Tablet: 2 cards per row */
+@media (max-width: 992px) {
+    .restaurant-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Mobile: 1 card per row */
+@media (max-width: 600px) {
+    .restaurant-list {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
 /* Restaurant card overrides */
 .restaurant-card {
     padding: 20px;

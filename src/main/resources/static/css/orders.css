@@ -1,3 +1,17 @@
+/* Responsive table wrapper */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+}
+
+.table-responsive table {
+    width: 100%;
+    min-width: 600px;             
+    border-collapse: collapse;
+}
+
 /* Status badges for user orders */
 .status-badge {
     display: inline-block;
@@ -6,9 +20,28 @@
     font-size: 13px;
     font-weight: 600;
     color: #fff;
+    border: 1px solid rgba(0,0,0,0.1);
 }
 
-.status-pending { background-color: #ff9800; }
-.status-processing { background-color: #2196f3; }
-.status-delivered { background-color: #4caf50; }
-.status-cancelled { background-color: #f44336; }
+/* Payment statuses */
+.status-paid { background-color: #28a745; }   
+.status-pending { background-color: #ffc107; }
+.status-failed { background-color: #dc3545; } 
+.status-unknown { background-color: #6c757d; }
+
+.status-badge:hover {
+    opacity: 0.85;
+    cursor: default;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    .table-responsive table {
+        font-size: 14px;
+    }
+    .table-responsive th,
+    .table-responsive td {
+        padding: 8px;
+        white-space: nowrap;
+    }
+}

@@ -7,9 +7,7 @@
     	<link rel="stylesheet" th:href="@{/css/common.css}">
     	<link rel="stylesheet" th:href="@{/css/admin-form.css}">
 	</head>
-	<body>
-		<div th:replace="~{fragments/header :: navbar}"></div>
-		
+	<body>		
 		<div class="container admin-form-container">
     		<h2>Add Restaurant</h2>
     		<form th:action="@{/admin/restaurants/add}" th:object="${restaurant}" method="post">

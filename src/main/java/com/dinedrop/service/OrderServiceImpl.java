@@ -28,23 +28,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order placeOrder(Long userId, List<Long> menuItemIds, List<Integer> quantities, String deliveryAddress) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        		.orElseThrow(() -> new IllegalArgumentException("User not found"));
         
         if (menuItemIds.isEmpty()) { 
-            throw new RuntimeException("No menu items provided"); 
+            throw new IllegalArgumentException("No menu items provided"); 
         }
         
         // Fetch first menu item to determine restaurant 
         MenuItem firstItem = menuItemRepository.findById(menuItemIds.get(0)) 
-                .orElseThrow(() -> new RuntimeException("Menu item not found")); 
+                .orElseThrow(() -> new IllegalArgumentException("Menu item not found")); 
         Restaurant restaurant = firstItem.getRestaurant();
         
         // Validate all items belong to the same restaurant 
         for (Long itemId : menuItemIds) { 
             MenuItem item = menuItemRepository.findById(itemId) 
-                    .orElseThrow(() -> new RuntimeException("Menu item not found")); 
+                    .orElseThrow(() -> new IllegalArgumentException("Menu item not found")); 
             if (!item.getRestaurant().equals(restaurant)) { 
-                throw new RuntimeException("All items in an order must be from the same restaurant"); 
+                throw new IllegalArgumentException("All items in an order must be from the same restaurant"); 
             } 
         }
         
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
 
         for (int i = 0; i < menuItemIds.size(); i++) {
             MenuItem item = menuItemRepository.findById(menuItemIds.get(i))
-                    .orElseThrow(() -> new RuntimeException("Menu item not found"));
+                    .orElseThrow(() -> new IllegalArgumentException("Menu item not found"));
 
             int quantity = quantities.get(i);
             double price = item.getPrice();
@@ -87,14 +87,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getOrdersByUser(Long userId) {
         userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
         return orderRepository.findOrdersWithDetailsByUserId(userId);
     }
 
     @Override
     public Order getOrderDetails(Long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
     }
 
     @Override
@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updatePaymentStatus(Long orderId, String status, String stripeSessionId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
         order.setPaymentStatus(status);
         order.setStripeSessionId(stripeSessionId);
         orderRepository.save(order);

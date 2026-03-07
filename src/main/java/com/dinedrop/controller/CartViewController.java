@@ -84,8 +84,14 @@ public class CartViewController {
             return "redirect:/login";
         }
 
-        cartItemService.addToCart(user, menuItemId, quantity);
-        redirectAttributes.addFlashAttribute("message", "Item added to cart.");
+        try {
+            cartItemService.addToCart(user, menuItemId, quantity);
+            redirectAttributes.addFlashAttribute("message", "Item added to cart.");
+        } catch (IllegalArgumentException e) {
+            // One-restaurant restriction triggered
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+
         return "redirect:/cart";
     }
 }

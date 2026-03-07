@@ -11,17 +11,20 @@
     margin-bottom: 25px;
 }
 
-/* Add spacing between inline forms in orders table */
 .admin-table-container form {
-    margin-right: 8px;   /* space between forms */
+    margin-right: 8px;   
 }
 
 .admin-table-container select {
-    margin-right: 6px;   /* space between dropdown and button */
+    margin-right: 6px;   
 }
 
 
-/* Table overrides (admin-specific look) */
+.admin-table-container form button {
+    margin-bottom: 6px;
+}
+
+/* Table overrides */
 table {
     margin-top: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -58,24 +61,19 @@ li {
     color: #fff;
 }
 
-.status-pending {
-    background-color: #ff9800;
-}
+/* Payment statuses */
+.status-paid { background-color: #28a745; }   
+.status-failed { background-color: #dc3545; }
+.status-pending { background-color: #ff9800; }
+.status-unknown { background-color: #6c757d; }
 
-.status-processing {
-    background-color: #2196f3; 
-}
+/* Order lifecycle statuses */
+.status-processing { background-color: #2196f3; } 
+.status-delivered { background-color: #4caf50; }  
+.status-cancelled { background-color: #f44336; } 
+.status-unknown { background-color: #6c757d; }
 
-.status-delivered {
-    background-color: #4caf50; 
-}
-
-.status-cancelled {
-    background-color: #f44336; 
-}
-
-
-/* Order summary card styling */
+/* Order summary card */
 .order-summary-card {
     background: #fff;
     border: 1px solid #ddd;
@@ -107,4 +105,14 @@ li {
 
 .order-summary-card strong {
     color: #222;
+}
+
+/* Back link styling */
+.back-link a {
+    color: #555 !important;   
+    font-weight: 600;
+}
+.back-link a:hover {
+    color: #333 !important;   
+    text-decoration: underline;
 }

@@ -1,7 +1,7 @@
 package com.dinedrop.controller;
 
-import com.dinedrop.model.CartItem;
 import com.dinedrop.model.Order;
+import com.dinedrop.model.OrderItem;
 import com.dinedrop.model.User;
 import com.dinedrop.service.CartService;
 import com.dinedrop.service.OrderServiceImpl;
@@ -43,12 +43,9 @@ public class CheckoutController {
             return "redirect:/login";
         }
 
-        List<CartItem> cartItems = cartService.getCartItems(user);
-        double totalAmount = cartService.getTotalPrice(user);
-
         model.addAttribute("user", user);
-        model.addAttribute("cartItems", cartItems);
-        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("cartItems", cartService.getCartItems(user));
+        model.addAttribute("totalAmount", cartService.getTotalPrice(user));
 
         return "checkout";
     }
@@ -67,18 +64,26 @@ public class CheckoutController {
             return "redirect:/login";
         }
 
-        // Place order in DB (status = PENDING)
-        Order order = orderService.placeOrder(user, menuItemIds, quantities, deliveryAddress);
+        Order order;
+        try {
+            // Place order in DB (status = PENDING)
+            order = orderService.placeOrder(user, menuItemIds, quantities, deliveryAddress);
 
-        // Build Stripe Checkout Session
+            // Clear the cart immediately after placing the order
+            cartService.clearCart(user);
+
+        } catch (IllegalArgumentException e) {
+            // Friendly error page for multi-restaurant rule
+            model.addAttribute("errorMessage", "⚠️ Orders must be placed separately for each restaurant.");
+            return "checkout_error";
+        }
+
+        // Build Stripe Checkout Session from order items (not cart!)
         List<SessionCreateParams.LineItem> lineItems = new ArrayList<>();
-        for (int i = 0; i < menuItemIds.size(); i++) {
-            Long menuItemId = menuItemIds.get(i);
-            int quantity = quantities.get(i);
-
-            CartItem cartItem = cartService.getCartItemByMenuItemId(user, menuItemId);
-            String itemName = cartItem.getMenuItem().getName();
-            double itemPrice = cartItem.getMenuItem().getPrice();
+        for (OrderItem item : order.getItems()) {
+            String itemName = item.getMenuItem().getName();
+            double itemPrice = item.getMenuItem().getPrice();
+            int quantity = item.getQuantity();
 
             lineItems.add(
                 SessionCreateParams.LineItem.builder()
@@ -112,5 +117,12 @@ public class CheckoutController {
 
         // Redirect user to Stripe Checkout
         return "redirect:" + sessionStripe.getUrl();
+    }
+
+    // Handle IllegalArgumentException for checkout gracefully
+    @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalArgument(IllegalArgumentException e, Model model) {
+        model.addAttribute("errorMessage", "⚠️ " + e.getMessage());
+        return "checkout_error";
     }
 }
