@@ -1,7 +1,7 @@
 # DineDrop 🍽️  
 A Full‑Stack Food Ordering Platform  
 
-DineDrop is a modern, recruiter‑ready full‑stack application designed for seamless restaurant browsing and online food ordering. Featuring a clean UI, secure payment integration, and robust backend automation, it delivers a smooth experience for both customers and admins.  
+DineDrop is a full‑stack application designed for seamless restaurant browsing and online food ordering. Featuring a clean UI, secure payment integration, and robust backend automation, it delivers a smooth experience for both customers and admins.  
 
 ---
 
